@@ -4,12 +4,12 @@ import br.com.wsbasestructure.dao.impl.CRUDCenter;
 import br.com.wsbasestructure.dao.interfaces.IPersistenceCenter;
 import br.com.wsbasestructure.dto.FlowContainer;
 import br.com.wsbasestructure.dto.Message;
-import br.com.wsbasestructure.dto.Result;
 import br.com.wsbasestructure.dto.interfaces.IHolder;
 import br.com.wsbasestructure.exceptions.DefaultStructureException;
 import br.com.wsbasestructure.rules.interfaces.ICommand;
 import br.com.wsbasestructure.view.interfaces.IViewHelper;
 import java.util.List;
+import javax.ws.rs.core.Response;
 import org.hibernate.Session;
 
 /**
@@ -111,7 +111,7 @@ public class Facade {
         runBusinessRulesAfterMainFlow(view.getRulesAfterMainFlow(), holder);
     }
 
-    public String process() {
+    public Response process() {
         IViewHelper v = this.flowC.getViewHelper();
         IHolder h = v.getView(this.flowC);
         try {
@@ -122,8 +122,9 @@ public class Facade {
                 this.flowC.setResult(dse.getResult());
             } catch (Exception ex2) {
                 Message m = new Message();
-                m.setError("Não é um erro conhecido (Unknow): " + ex2.getMessage());
+                m.setError(new StringBuilder("Unexpected Error: ").append(ex2.getMessage()).toString());
                 this.flowC.getResult().setMessage(m);
+                this.flowC.getResult().setStatus(Response.Status.INTERNAL_SERVER_ERROR);
             }
         }
 
