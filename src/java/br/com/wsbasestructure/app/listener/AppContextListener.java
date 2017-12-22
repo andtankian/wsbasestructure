@@ -1,6 +1,7 @@
 package br.com.wsbasestructure.app.listener;
 
 import br.com.wsbasestructure.dao.abstracts.Connection;
+import br.com.wsbasestructure.endpoints.sessions.generic.ConcreteWebSocketSessionHandler;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -23,7 +24,8 @@ public class AppContextListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        sce.getServletContext().setAttribute("hefesto", new Connection()); //set the new connection into a appcontext attribute.
+        sce.getServletContext().setAttribute("connection", new Connection()); //set the new connection into a appcontext attribute.
+        sce.getServletContext().setAttribute("contentep", new ConcreteWebSocketSessionHandler());
     }
 
     /**
@@ -36,9 +38,9 @@ public class AppContextListener implements ServletContextListener {
      */
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        if (sce.getServletContext().getAttribute("hefesto") != null) {
+        if (sce.getServletContext().getAttribute("connection") != null) {
             //if the appcontext attribute containing the connection is different of null, then lets finalize eveything.
-            Connection c = (Connection) sce.getServletContext().getAttribute("hefesto");
+            Connection c = (Connection) sce.getServletContext().getAttribute("connection");
             c.closeEverything();
         }
     }
