@@ -1,8 +1,7 @@
 package br.com.wsbasestructure.dto;
 
 import br.com.wsbasestructure.dto.interfaces.IHolder;
-import java.util.ArrayList;
-import java.util.List;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -10,13 +9,9 @@ import java.util.List;
  */
 public class Result {
 
-    public static final int FATAL_ERROR = -2;
-    public static final int ERROR = -1;
-    public static final int SUCCESS = 1;
-
     private IHolder holder;
     private Message message;
-    private int status;
+    private Response.Status status;
 
     public Result() {
 
@@ -31,20 +26,20 @@ public class Result {
         this.holder = holder;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
     public Message getMessage() {
         return message;
     }
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    public Response.Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Response.Status status) {
+        this.status = status;
     }
 
 }

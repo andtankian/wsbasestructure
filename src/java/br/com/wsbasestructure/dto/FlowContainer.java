@@ -84,9 +84,6 @@ public class FlowContainer {
 
     public void setFc(FlowControl fc) {
         this.fc = fc;
-    }
-    
-    
-    
+    }    
     
 }
