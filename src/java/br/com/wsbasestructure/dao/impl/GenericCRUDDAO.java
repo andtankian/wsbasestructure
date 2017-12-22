@@ -5,6 +5,7 @@ import br.com.wsbasestructure.dao.interfaces.ICRUD;
 import br.com.wsbasestructure.dto.FlowControl;
 import br.com.wsbasestructure.dto.Result;
 import br.com.wsbasestructure.dto.interfaces.IHolder;
+import javax.ws.rs.core.Response;
 import org.hibernate.Session;
 
 /**
@@ -37,10 +38,10 @@ public abstract class GenericCRUDDAO extends AbstractDAO implements ICRUD {
             session.persist(holder.getEntities().get(0));
             session.getTransaction().commit();
             message.setText("inserted");
-            result.setStatus(Result.SUCCESS);
+            result.setStatus(Response.Status.OK);
         } catch (Exception e) {
             message.setError(e.getMessage());
-            result.setStatus(Result.ERROR);
+            result.setStatus(Response.Status.CONFLICT);
             fc.setMustContinue(false);
         } finally {
             result.setHolder(holder);
@@ -56,10 +57,10 @@ public abstract class GenericCRUDDAO extends AbstractDAO implements ICRUD {
             session.update(holder.getEntities().get(0));
             session.getTransaction().commit();
             message.setText("updated");
-            result.setStatus(Result.SUCCESS);
+            result.setStatus(Response.Status.OK);
         } catch (Exception e) {
             message.setError(e.getMessage());
-            result.setStatus(Result.ERROR);
+            result.setStatus(Response.Status.CONFLICT);
             fc.setMustContinue(false);
         } finally {
             result.setHolder(holder);
