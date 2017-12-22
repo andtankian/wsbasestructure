@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface IEntity {
     public void merge(Entity e) throws Exception;
-    public List defaultAcceptedFields(List accepts);
+    public List getDefaultAcceptedFields();
+    public List getAllFields();
 }
